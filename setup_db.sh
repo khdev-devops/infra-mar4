@@ -68,16 +68,18 @@ fi
 
 # Kontrollera om användaren finns
 USER_EXISTS=$(sudo -i -u postgres psql -tAc "SELECT 1 FROM pg_roles WHERE rolname='$DB_USER';")
+USER_EXISTS=$(sudo -i -u postgres psql -tAc "SELECT 1 FROM pg_roles WHERE rolname='$DB_USER';")
 if [[ "$USER_EXISTS" != "1" ]]; then
-  sudo -i -u postgres psql -c "CREATE USER $DB_USER WITH PASSWORD '$DB_PASSWORD';"
+  sudo -i -u postgres psql -c "CREATE USER $DB_USER;"
   echo "✅ Användaren $DB_USER skapad!"
 else
   echo "ℹ️ Användaren $DB_USER finns redan."
-  
-  # Uppdatera lösenord om det är fel
-  sudo -i -u postgres psql -c "ALTER USER $DB_USER WITH PASSWORD '$DB_PASSWORD';"
-  echo "✅ Lösenordet för $DB_USER uppdaterat!"
 fi
+
+# Uppdatera alltid lösenordet för att se till att det är korrekt
+sudo -i -u postgres psql -c "ALTER USER $DB_USER WITH PASSWORD '$DB_PASSWORD';"
+echo "✅ Lösenordet för $DB_USER uppdaterat!"
+
 
 # Kontrollera om användaren har rättigheter på databasen
 PERMISSION_EXISTS=$(sudo -i -u postgres psql -tAc "SELECT 1 FROM pg_shdepend WHERE objid = (SELECT oid FROM pg_database WHERE datname = '$DB_NAME') AND refobjid = (SELECT oid FROM pg_roles WHERE rolname = '$DB_USER');")
