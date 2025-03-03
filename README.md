@@ -30,12 +30,13 @@ Ersätt `<EC2-IP>` med din instansens publika IP-adress.
 På EC2-instansen, hämta koden från GitHub:
 
 ```bash
-git clone TODO:
-cd TODO:
+sudo dnf install git -y
+git clone https://github.com/khdev-devops/infra-mar4.git
+cd infra-mar4
 ```
 ## 3: Undersök koden
 
-Titta runt i filerna för att få ett grepp om vad de olika filerna gör och hur de kan tänkas höra ihop.
+Titta runt i filerna (på github är enklast) för att få ett grepp om vad de olika filerna gör och hur de kan tänkas höra ihop.
 
 ## 4: Försök att starta appen
 
