@@ -68,7 +68,6 @@ fi
 
 # Kontrollera om användaren finns
 USER_EXISTS=$(sudo -i -u postgres psql -tAc "SELECT 1 FROM pg_roles WHERE rolname='$DB_USER';")
-USER_EXISTS=$(sudo -i -u postgres psql -tAc "SELECT 1 FROM pg_roles WHERE rolname='$DB_USER';")
 if [[ "$USER_EXISTS" != "1" ]]; then
   sudo -i -u postgres psql -c "CREATE USER $DB_USER;"
   echo "✅ Användaren $DB_USER skapad!"
@@ -120,6 +119,7 @@ if [[ "$TABLE_SELECT" != "t" ]]; then
   sudo -i -u postgres psql -d "$DB_NAME" -c "GRANT SELECT ON ALL TABLES IN SCHEMA public TO $DB_USER;"
   echo "✅ SELECT-rättigheter för $DB_USER på users-tabellen beviljade!"
 fi
+
 PSQL_AUTH_FILE="/var/lib/pgsql/data/pg_hba.conf"
 if ! sudo grep -q "host    $DB_NAME            $DB_USER" "$PSQL_AUTH_FILE"; then
   sudo sed -i "1i host    $DB_NAME            $DB_USER          127.0.0.1/32            md5" "$PSQL_AUTH_FILE"
