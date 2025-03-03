@@ -44,7 +44,7 @@ def fetch_user_from_db():
     result, success = execute_db_query('SELECT name FROM users LIMIT 1;', fetch_one=True)
     
     if not success:
-        return result, False
+        return "❌ Steg 3: Ingen användare hittades i databasen!", False
     if result:
         return f"✅ Steg 3: Flask kan hämta data från databasen! (Användare: {result[0]})", True
     return "❌ Steg 3: Ingen användare hittades i databasen!", False
@@ -84,21 +84,10 @@ def execute_db_query(query, fetch_one=False):
 
 
 
-# Route: Flask-appen själv (ska visa "Hej Kalle!")
+# Route: Flask-appen själv (ska visa "Hej Kalle!" alternativt status om de olika stegen)
 @app.route('/')
 def home():
-    """Hämtar en användare från databasen och visar den på hemsidan."""
-    result, success = fetch_user_from_db()
-    
-    if not success:
-        return f"<h1>{result}</h1>", 500
-    return f"<h1>Hej, {result.split(': ')[-1]}!</h1>"
-
-
-# Route: Test och status av alla steg
-@app.route('/status')
-def status():
-    """Visar status för alla steg och indikerar om appen är redo."""
+    """Visar status för alla steg och om allt fungerar, hämtar och visar användaren från databasen."""
     steps = [
         check_env_variables(),
         check_db_connection(),
@@ -106,12 +95,15 @@ def status():
     ]
 
     status_messages = [message for message, _ in steps]
+    failed_steps = [message for message, success in steps if not success]
 
-    # Om alla steg är klara, lägg till ett slutmeddelande
-    if all(success for _, success in steps):
-        status_messages.append("🎉 **Allt fungerar! Flask kan ansluta till databasen och hämta data!**")
+    # Om något steg misslyckas, skriv ut alla stegs status och markera fel.
+    if failed_steps:
+        return "<br>".join(status_messages), 500
 
-    return "<br>".join(status_messages)
+    # Om allt fungerar, hämta användarnamnet och visa välkomstmeddelande
+    user_name = steps[-1][0].split(': ')[-1]  # Extrahera användarnamnet från sista steget
+    return f"<h1>Hej, {user_name}!</h1><br>" + "<br>".join(status_messages)
 
 
 # Start av Flask-applikationen

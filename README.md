@@ -52,22 +52,14 @@ Funkade det inte? Det är nu öventyret börjar!
 ## 4: Testa om allt fungerar
 
 ### Kontrollera status
-Besök status-sidan i din webbläsare:
+Besök appen i din webbläsare:
 ```
-http://<EC2-IP>:5000/status
+http://<EC2-IP>:5000/
 ```
 Du bör se **steg-för-steg status** om vilka delar som är klara och vilka som saknas. Läs felmeddelanden och försök fixa det steg för steg:
 1. Kolla efter `# Steg 1: Kontrollera miljövariabler` i [app.py](app.py)
 1. Kolla efter `# Steg 2: Testa anslutning till databasen` i [app.py](app.py)
 1. Kolla efter `# Steg 3: Hämta data från databasen` i [app.py](app.py)
-
-Använd `http://<EC2-IP>:5000/status` för att se vilka steg du har klarat av att fixa.
-
-### Testa huvudapplikationen
-När alla steg är gröna kan du nu besöka appens startsida:
-```
-http://<EC2-IP>:5000/
-```
 
 Om allt är fixat så skall du kunna se:
 ```
