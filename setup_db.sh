@@ -45,12 +45,17 @@ print "2: Installerar och konfigurerar PostgreSQL"
 #######################################
 
 sudo dnf install -y postgresql16 postgresql16-server
+
+# Se om initdb behövs genom att kolla om katalogen finns
+if [ ! -d "/var/lib/pgsql/data" ]; then
+  sudo postgresql-setup --initdb
+  echo "✅ Initierat PostgreSQL datakatalog"
+else
+  echo "ℹ️ PostgreSQL-datakatalogen finns redan, hoppar över initiering."
+fi
+
 sudo systemctl start postgresql
 sudo systemctl enable postgresql
-
-if ! command -v psql &> /dev/null; then
-  sudo postgresql-setup --initdb
-fi
 
 # Kontrollera om databasen finns
 DB_EXISTS=$(sudo -i -u postgres psql -tAc "SELECT 1 FROM pg_database WHERE datname='$DB_NAME';")
