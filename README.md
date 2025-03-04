@@ -42,7 +42,7 @@ Titta runt i filerna (på github är enklast) för att få ett grepp om vad de o
 
 Starta appen genom att köra:
 ```bash
-./start.sh
+sudo ./start.sh # sudo för att vi kör på port 80 som är en skyddad port
 ```
 
 Funkade det inte? Det är nu öventyret börjar!
