@@ -16,7 +16,7 @@ Detta projekt är en övning i att infrastruktur med **Flask** och **PostgreSQL*
 - Skapa ny **Key Pair** `mar4`
 - Se till att **Security Group** har följande regler:
   - **SSH** (Port 22): Din CloudShell IP (`curl ifconfig.me`)
-  - **Custom TCP Rule** (Port 5000): `My IP`  
+  - **HTTP** (Port 80): `My IP`
 
 ### Koppla upp dig till EC2 via SSH
 
@@ -54,7 +54,7 @@ Funkade det inte? Det är nu öventyret börjar!
 ### Kontrollera status
 Besök appen i din webbläsare:
 ```
-http://<EC2-IP>:5000/
+http://<EC2-IP>/
 ```
 Du bör se **steg-för-steg status** om vilka delar som är klara och vilka som saknas. Läs felmeddelanden och försök fixa det steg för steg:
 1. Kolla efter `# Steg 1: Kontrollera miljövariabler` i [app.py](app.py)
